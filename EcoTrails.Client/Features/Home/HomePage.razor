@@ -1,3 +1,37 @@
 ﻿@page "/"
 
+@inject HttpClient httpClient;
+@inject ILogger<HomePage> logger;
 
+<PageTitle>eco.Trails</PageTitle>
+
+@if (_trails == null)
+{
+	<p>Loading trails...</p>
+}
+else
+{
+	<div class="grid">
+		@foreach (var trail in _trails)
+		{
+			<TrailCard Trail="trail" />
+		}
+	</div>
+}
+
+@code
+{
+	private IEnumerable<Trail>? _trails;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			_trails = await httpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
+		}
+		catch (HttpRequestException ex)
+		{
+			logger.LogError(ex, "An error occured");
+		}
+	}
+}
