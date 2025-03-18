@@ -1,0 +1,26 @@
+﻿@inject NavigationManager navManager;
+
+<div class="jumbotron">
+	<h1 class="display-4 text-center">Welcome to eco.Trails</h1>
+	<p class="lead text-center">Find the most beautiful hiking trails!</p>
+	<p class="mt-4">
+		<input @onkeydown="SearchForTrail"
+		       @bind="_searchTerm"
+		       @bind:event="oninput"
+		       type="text"
+		       placeholder="Search for a trail..."
+		       class="form-control form-control-lg" />
+	</p>
+</div>
+
+@code {
+	private string _searchTerm = string.Empty;
+
+	private void SearchForTrail(KeyboardEventArgs args)
+	{
+		if (args.Key == "Enter")
+		{
+			navManager.NavigateTo($"/search/{_searchTerm}");
+		}
+	}
+}
