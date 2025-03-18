@@ -5,16 +5,17 @@
 
 <PageTitle>eco.Trails</PageTitle>
 
-@if (_trails == null)
+@if (_trails is null)
 {
 	<p>Loading trails...</p>
 }
 else
 {
+	<TrailDetails Trail="_selectedTrail" />
 	<div class="grid">
 		@foreach (var trail in _trails)
 		{
-			<TrailCard Trail="trail" />
+			<TrailCard Trail="trail" OnSelected="HandleTrailSelected"/>
 		}
 	</div>
 }
@@ -22,6 +23,7 @@ else
 @code
 {
 	private IEnumerable<Trail>? _trails;
+	private Trail? _selectedTrail;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -31,7 +33,11 @@ else
 		}
 		catch (HttpRequestException ex)
 		{
+			//TODO
 			logger.LogError(ex, "An error occured");
 		}
 	}
+
+	private void HandleTrailSelected(Trail trail) =>
+		_selectedTrail = trail;
 }
