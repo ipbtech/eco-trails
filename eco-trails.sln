@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTrails.Client", "EcoTrails.Client\EcoTrails.Client.csproj", "{486D5E14-07DB-4B3B-B0E5-A00DB8F8ED82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTrails.Api", "EcoTrails.Api\EcoTrails.Api.csproj", "{5EC8C298-F127-4534-856C-7DE981E9E0AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{486D5E14-07DB-4B3B-B0E5-A00DB8F8ED82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486D5E14-07DB-4B3B-B0E5-A00DB8F8ED82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486D5E14-07DB-4B3B-B0E5-A00DB8F8ED82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
