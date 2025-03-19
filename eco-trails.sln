@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTrails.Client", "EcoTrai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTrails.Api", "EcoTrails.Api\EcoTrails.Api.csproj", "{5EC8C298-F127-4534-856C-7DE981E9E0AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoTrails.Shared", "EcoTrails.Shared\EcoTrails.Shared.csproj", "{8A13618F-262A-4C6F-B295-3FEFBA07358E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC8C298-F127-4534-856C-7DE981E9E0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A13618F-262A-4C6F-B295-3FEFBA07358E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A13618F-262A-4C6F-B295-3FEFBA07358E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A13618F-262A-4C6F-B295-3FEFBA07358E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A13618F-262A-4C6F-B295-3FEFBA07358E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
