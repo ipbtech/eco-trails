@@ -1,6 +1,0 @@
-@EcoTrails.Api_HostAddress = http://localhost:5073
-
-GET {{EcoTrails.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
