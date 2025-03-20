@@ -1,4 +1,7 @@
+using System.Reflection;
 using EcoTrails.Api.Persistence;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +12,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<EcoTrailsDbContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("EcoTrails.Shared"));
 
 var app = builder.Build();
 

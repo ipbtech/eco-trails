@@ -56,6 +56,23 @@ a {
     row-gap: 75px;
 }
 
+.validation-message {
+    color: red;
+}
+
+input.invalid,
+textarea.invalid,
+select.invalid {
+    border-color: red;
+}
+
+input.valid.modified,
+text.valid.modified,
+select.valid.modified {
+    border-color: green;
+}
+
+
 
 #blazor-error-ui {
     color-scheme: light only;
