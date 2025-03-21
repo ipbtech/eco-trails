@@ -1,7 +1,7 @@
 ﻿using EcoTrails.Shared.Features.ManageTrails;
 using MediatR;
 
-namespace EcoTrails.Client.Features.ManageTrails;
+namespace EcoTrails.Client.Features.ManageTrails.Shared;
 
 public class UploadTrailImageHandler : IRequestHandler<UploadTrailImageRequest, UploadTrailImageRequest.Response>
 {

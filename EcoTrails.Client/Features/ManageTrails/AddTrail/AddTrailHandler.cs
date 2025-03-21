@@ -2,7 +2,7 @@
 using EcoTrails.Shared.Features.ManageTrails;
 using MediatR;
 
-namespace EcoTrails.Client.Features.ManageTrails;
+namespace EcoTrails.Client.Features.ManageTrails.AddTrail;
 
 public class AddTrailHandler : IRequestHandler<AddTrailRequest, AddTrailRequest.Response>
 {
