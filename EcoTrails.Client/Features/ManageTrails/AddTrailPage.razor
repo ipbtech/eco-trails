@@ -1,4 +1,5 @@
 ﻿@page "/add-trail"
+@using System.Diagnostics
 @using EcoTrails.Client.Validation
 @using RouteInstruction = EcoTrails.Shared.Features.ManageTrails.RouteInstruction
 
@@ -53,6 +54,11 @@ else if (_errorMessage is not null)
 			<InputText @bind-Value="_trail.Location" class="form-control" id="trailLocation"/>
 			<ValidationMessage For="@(() => _trail.Location)" />
 		</FormFieldSet>
+		<FormFieldSet>
+			<label for="trailImage" class="font-weight-bold text-secondary mb-2">Image</label>
+			<InputFile id="trailImage" class="form-control-file" accept=".png,.jpg,.jpeg" 
+			           OnChange="LoadTrailImage"/>
+		</FormFieldSet>
 	</FormSection>
 	<FormSection Title="Difficulty"
 	             HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
@@ -62,7 +68,7 @@ else if (_errorMessage is not null)
 			<ValidationMessage For="@(() => _trail.Length)" />
 		</FormFieldSet>
 		<FormFieldSet>
-			<label for="trailTime" class="font-weight-bold text-secondary">Time</label>
+			<label for="trailTime" class="font-weight-bold text-secondary mb-2">Time</label>
 			<InputTime id="trailTime" @bind-Value="_trail.TimeInMinutes"/>
 			<ValidationMessage For="@(() => _trail.TimeInMinutes)"/>
 		</FormFieldSet>
@@ -120,6 +126,7 @@ else if (_errorMessage is not null)
 @code {
 	private EditContext _editContext;
     private TrailDto _trail = new TrailDto();
+    private IBrowserFile? _trailImage;
     private bool _submitSuccessful;
     private string? _errorMessage;
 
@@ -139,8 +146,38 @@ else if (_errorMessage is not null)
 		    return;
 	    }
 
-	    _trail = new TrailDto();
-	    _errorMessage = null;
+	    if (_trailImage is null)
+	    {
+		    _submitSuccessful = true;
+			ResetForm();
+			return;
+	    }
+
+	    await ProcessImage(response.TrailId);
+    }
+
+    private async Task ProcessImage(int trailId)
+    {
+	    var imageUploadResponse = await mediator.Send(new UploadTrailImageRequest(trailId, _trailImage));
+	    if (string.IsNullOrEmpty(imageUploadResponse.ImageName))
+	    {
+		    _errorMessage = "Your trail was saved, but there was a problem uploading the image";
+		    return;
+	    }
+
 	    _submitSuccessful = true;
+		ResetForm();
+    }
+
+    private void LoadTrailImage(InputFileChangeEventArgs e) =>
+	    _trailImage = e.File;
+
+    private void ResetForm()
+    {
+	    _trail = new TrailDto();
+	    _trailImage = null;
+	    _editContext = new EditContext(_trail);
+	    _editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
+	    _errorMessage = null;
     }
 }
