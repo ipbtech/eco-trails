@@ -1,4 +1,4 @@
-﻿namespace EcoTrails.Client.Features.Home;
+﻿namespace EcoTrails.Client.Features.Home.Shared;
 
 public class Trail
 {
