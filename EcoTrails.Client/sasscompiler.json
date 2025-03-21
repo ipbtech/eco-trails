@@ -3,7 +3,7 @@
   "Source": "Styles",
   "Target": "wwwroot/css",
   "GenerateScopedCss": true,
-  "ScopedCssFolders": ["Features"],
+  "ScopedCssFolders": ["Features/Home", "Features/ManageTrails"],
 
   "Configurations": {
     "Release": {
