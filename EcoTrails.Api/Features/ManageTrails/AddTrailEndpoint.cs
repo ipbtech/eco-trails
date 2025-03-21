@@ -1,11 +1,14 @@
-﻿using EcoTrails.Api.Persistence;
+﻿using Ardalis.ApiEndpoints;
+using EcoTrails.Api.Persistence;
 using EcoTrails.Api.Persistence.Entities;
 using EcoTrails.Shared.Features.ManageTrails;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoTrails.Api.Features.ManageTrails;
 
-public class AddTrailEndpoint : Ardalis.ApiEndpoints.EndpointBaseAsync.WithRequest<AddTrailRequest>.WithActionResult<int>
+public class AddTrailEndpoint : EndpointBaseAsync
+    .WithRequest<AddTrailRequest>
+    .WithActionResult<int>
 {
     private readonly EcoTrailsDbContext _database;
 
