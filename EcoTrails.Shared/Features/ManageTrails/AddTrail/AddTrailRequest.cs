@@ -1,7 +1,8 @@
-﻿using FluentValidation;
+﻿using EcoTrails.Shared.Features.ManageTrails.Shared;
+using FluentValidation;
 using MediatR;
 
-namespace EcoTrails.Shared.Features.ManageTrails;
+namespace EcoTrails.Shared.Features.ManageTrails.AddTrail;
 
 public record AddTrailRequest(TrailDto Trail) : IRequest<AddTrailRequest.Response>
 {

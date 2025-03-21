@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace EcoTrails.Shared.Features.ManageTrails;
+namespace EcoTrails.Shared.Features.ManageTrails.Shared;
 
 public record UploadTrailImageRequest(
     int TrailId, 

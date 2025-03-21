@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace EcoTrails.Shared.Features.ManageTrails;
+namespace EcoTrails.Shared.Features.ManageTrails.Shared;
 
 public class TrailDto
 {
@@ -11,6 +11,15 @@ public class TrailDto
     public int TimeInMinutes { get; set; }
     public int Length { get; set; }
     public List<RouteInstruction> Route { get; set; } = new List<RouteInstruction>();
+    public string? Image { get; set; }
+    public ImageAction ImageAction { get; set; }
+}
+
+public enum ImageAction
+{
+    None,
+    Add,
+    Remove
 }
 
 public class TrailValidator : AbstractValidator<TrailDto>

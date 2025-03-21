@@ -1,5 +1,5 @@
 ﻿using System.Net.Http.Json;
-using EcoTrails.Shared.Features.ManageTrails;
+using EcoTrails.Shared.Features.ManageTrails.AddTrail;
 using MediatR;
 
 namespace EcoTrails.Client.Features.ManageTrails.AddTrail;

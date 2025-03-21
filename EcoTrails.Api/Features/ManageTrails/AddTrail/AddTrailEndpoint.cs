@@ -1,10 +1,10 @@
 ﻿using Ardalis.ApiEndpoints;
 using EcoTrails.Api.Persistence;
 using EcoTrails.Api.Persistence.Entities;
-using EcoTrails.Shared.Features.ManageTrails;
+using EcoTrails.Shared.Features.ManageTrails.AddTrail;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EcoTrails.Api.Features.ManageTrails;
+namespace EcoTrails.Api.Features.ManageTrails.AddTrail;
 
 public class AddTrailEndpoint : EndpointBaseAsync
     .WithRequest<AddTrailRequest>
@@ -31,7 +31,7 @@ public class AddTrailEndpoint : EndpointBaseAsync
 
         await _database.Trails.AddAsync(trail, cancellationToken);
 
-        var routeInstructions = request.Trail.Route.Select(x => new Persistence.Entities.RouteInstruction
+        var routeInstructions = request.Trail.Route.Select(x => new RouteInstruction
         {
             Stage = x.Stage,
             Description = x.Description,

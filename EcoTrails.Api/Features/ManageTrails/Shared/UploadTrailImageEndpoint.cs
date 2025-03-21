@@ -1,12 +1,12 @@
 ﻿using Ardalis.ApiEndpoints;
 using EcoTrails.Api.Persistence;
-using EcoTrails.Shared.Features.ManageTrails;
+using EcoTrails.Shared.Features.ManageTrails.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace EcoTrails.Api.Features.ManageTrails;
+namespace EcoTrails.Api.Features.ManageTrails.Shared;
 
 public class UploadTrailImageEndpoint : EndpointBaseAsync
     .WithRequest<int>
@@ -46,6 +46,11 @@ public class UploadTrailImageEndpoint : EndpointBaseAsync
         using var image = Image.Load(file.OpenReadStream());
         image.Mutate(x => x.Resize(resizeOptions));
         await image.SaveAsJpegAsync(saveLocation, cancellationToken: cancellationToken);
+
+        if (!string.IsNullOrWhiteSpace(trail.Image))
+        {
+            System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Images", trail.Image));
+        }
 
 
         trail.Image = filename;

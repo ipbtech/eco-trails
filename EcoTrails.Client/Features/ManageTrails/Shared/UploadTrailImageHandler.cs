@@ -1,4 +1,4 @@
-﻿using EcoTrails.Shared.Features.ManageTrails;
+﻿using EcoTrails.Shared.Features.ManageTrails.Shared;
 using MediatR;
 
 namespace EcoTrails.Client.Features.ManageTrails.Shared;
