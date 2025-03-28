@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IMediator Mediator
+@inject NavigationManager NavManager
 
 <PageTitle>Blazing Trails</PageTitle>
 
@@ -19,12 +20,32 @@ else
             <p class="font-italic text-center">Do you have an awesome trail you'd like to share? <a href="add-trail">Add it here</a>.</p>
         </div>
 
-        <div class="grid">
-            @foreach (var trail in _trails)
-            {
-                <TrailCard Trail="trail" OnSelected="HandleTrailSelected" />
-            }
-        </div>
+        <ViewSwitcher Items="_trails" Context="trailCtx">
+            <GridTemplate>
+                <TrailCard Trail="trailCtx" OnSelected="HandleTrailSelected" />
+            </GridTemplate>
+            <HeaderTemplate>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Length</th>
+                <th>Time</th>
+                <th></th>
+            </HeaderTemplate>
+            <RowTemplate>
+                <th scope="col">@trailCtx.Name</th>
+                <td>@trailCtx.Location</td>
+                <td>@(trailCtx.Length)km</td>
+                <td>@trailCtx.TimeFormatted</td>
+                <td class="text-right">
+                    <button @onclick="@(() => HandleTrailSelected(trailCtx))" title="View" class="btn btn-primary">
+                        <i class="bi bi-binoculars"></i>
+                    </button>
+                    <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                </td>
+            </RowTemplate>
+        </ViewSwitcher>
     }
     else
     {
@@ -64,6 +85,6 @@ else
         }
     }
 
-    private void HandleTrailSelected(Trail trail)
+    private void HandleTrailSelected(Trail trail) 
         => _selectedTrail = trail;
 }

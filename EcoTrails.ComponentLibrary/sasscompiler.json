@@ -1,0 +1,12 @@
+{
+    "Arguments": "--error-css --style=expanded --source-map",
+    "Source": "Styles",
+    "GenerateScopedCss": true,
+    "ScopedCssFolders": [ ],
+
+    "Configurations": {
+        "Release": {
+            "Arguments": "--no-error-css --style=compressed --no-source-map"
+        }
+    }
+}

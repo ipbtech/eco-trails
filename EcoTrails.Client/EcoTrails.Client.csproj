@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EcoTrails.ComponentLibrary\EcoTrails.ComponentLibrary.csproj" />
     <ProjectReference Include="..\EcoTrails.Shared\EcoTrails.Shared.csproj" />
   </ItemGroup>
 
