@@ -4,19 +4,14 @@
 @implements IDisposable
 
 <div class="map-wrapper">
-    @* @if (!IsReadOnly)
+    @if (!IsReadOnly)
     {
         <div class="controls">
             <button @onclick="DeleteLastWaypoint" class="btn btn-secondary" title="Delete last waypoint" type="button">
                 <i class="bi bi-trash"></i> Remove Last Waypoint
             </button>
         </div>
-    } *@
-    <div class="controls">
-	    <button @onclick="DeleteLastWaypoint" class="btn btn-secondary" title="Delete last waypoint" type="button">
-		    <i class="bi bi-trash"></i> Remove Last Waypoint
-	    </button>
-    </div>
+    }
     <div style="height: @(Height); width:@(Width);" @ref="_map"></div>
 </div>
 
@@ -53,7 +48,7 @@
             _routeMapModule = await JSRuntime.InvokeAsync<IJSObjectReference>(
 	            "import", "./_content/EcoTrails.ComponentLibrary/Map/RouteMap.razor.js");
             _routeMapReference = DotNetObjectReference.Create(this);
-            await _routeMapModule.InvokeVoidAsync("initialize", _map, _routeMapReference, Waypoints);
+            await _routeMapModule.InvokeVoidAsync("initialize", _map, _routeMapReference, Waypoints, IsReadOnly);
         }
     }
 

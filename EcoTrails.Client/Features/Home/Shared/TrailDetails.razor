@@ -1,4 +1,6 @@
-﻿<div class="drawer-wrapper @(_isOpen ? "slide" : "")">
+﻿@using EcoTrails.ComponentLibrary.Map
+
+<div class="drawer-wrapper @(_isOpen ? "slide" : "")">
     <div class="drawer-mask"></div>
     <div class="drawer">
         @if (_activeTrail is not null)
@@ -6,13 +8,30 @@
             <div class="drawer-content">
                 <img src="@(!string.IsNullOrWhiteSpace(_activeTrail.Image) ? $"images/{_activeTrail.Image}" : "https://via.placeholder.com/640x426.jpg?text=No+Image+For+Trail")" />
                 <div class="trail-details">
-                    <h3>@_activeTrail.Name</h3>
-                    <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span> @_activeTrail.Location</h6>
-                    <div class="mt-4">
-                        <span class="mr-5"><span class="oi oi-clock mr-2"></span> @_activeTrail.TimeFormatted</span>
-                        <span><span class="oi oi-infinity mr-2"></span> @_activeTrail.Length km</span>
-                    </div>
-                    <p class="mt-4">@_activeTrail.Description</p>
+	                <h3>@_activeTrail.Name</h3>
+	                <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span> @_activeTrail.Location</h6>
+	                <div class="mt-4">
+		                <span class="mr-5"><span class="oi oi-clock mr-2"></span> @_activeTrail.TimeFormatted</span>
+		                <span><span class="oi oi-infinity mr-2"></span> @_activeTrail.Length km</span>
+	                </div>
+	                <p class="mt-4">@_activeTrail.Description</p>
+                </div>
+                <div>
+	                @if (_activeTrail.Waypoints.Any())
+	                {
+		                <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span>Map</h6>
+		                <RouteMap Width="100%" IsReadOnly="true" Waypoints="_activeTrail.Waypoints.ToList()"/>
+	                }
+                </div>
+                <div>
+	                @if (_activeTrail.Route.Any())
+	                {
+		                <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span>Route Instructions</h6>
+		                foreach (var instruction in _activeTrail.Route)
+		                {
+			                <p class="text-body">@($"{instruction.Stage} - {instruction.Description}")</p>
+		                }
+	                }
                 </div>
             </div>
             <div class="drawer-controls">

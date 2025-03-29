@@ -1,4 +1,6 @@
-﻿namespace EcoTrails.Client.Features.Home.Shared;
+﻿using EcoTrails.ComponentLibrary.Map;
+
+namespace EcoTrails.Client.Features.Home.Shared;
 
 public class Trail
 {
@@ -11,6 +13,7 @@ public class Trail
     public string TimeFormatted => $"{TimeInMinutes / 60}h {TimeInMinutes % 60}m";
     public int Length { get; set; }
     public IEnumerable<RouteInstruction> Route { get; set; } = new List<RouteInstruction>();
+    public IEnumerable<LatLong> Waypoints { get; set; } = new List<LatLong>();
 }
 
 public class RouteInstruction
