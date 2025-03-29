@@ -1,5 +1,6 @@
 ﻿using Ardalis.ApiEndpoints;
 using EcoTrails.Api.Persistence;
+using EcoTrails.Api.Persistence.Entities;
 using EcoTrails.Shared.Features.ManageTrails.EditTrail;
 using EcoTrails.Shared.Features.ManageTrails.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,10 @@ public class EditTrailEndpoint : EndpointBaseAsync
     [HttpPut(EditTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<bool>> HandleAsync(EditTrailRequest request, CancellationToken cancellationToken = default)
     {
-        var trail = await _database.Trails.Include(x => x.Route).SingleOrDefaultAsync(x => x.Id == request.Trail.Id, cancellationToken: cancellationToken);
+        var trail = await _database.Trails
+            .Include(x => x.Route)
+            .Include(x => x.Waypoints)
+            .SingleOrDefaultAsync(x => x.Id == request.Trail.Id, cancellationToken: cancellationToken);
 
         if (trail is null)
         {
@@ -38,6 +42,11 @@ public class EditTrailEndpoint : EndpointBaseAsync
             Stage = ri.Stage,
             Description = ri.Description,
             Trail = trail
+        }).ToList();
+        trail.Waypoints = request.Trail.Waypoints.Select(wp => new Waypoint()
+        {
+            Latitude = wp.Latitude,
+            Longitude = wp.Longitude,
         }).ToList();
 
         if (request.Trail.ImageAction == ImageAction.Remove)

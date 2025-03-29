@@ -7,6 +7,7 @@ public class EcoTrailsDbContext : DbContext
 {
     public DbSet<Trail> Trails => Set<Trail>();
     public DbSet<RouteInstruction> RouteInstructions => Set<RouteInstruction>();
+    public DbSet<Waypoint> Waypoints => Set<Waypoint>();
 
     public EcoTrailsDbContext(DbContextOptions<EcoTrailsDbContext> options) : base(options) 
     { }
@@ -17,6 +18,7 @@ public class EcoTrailsDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new TrailDbConfig());
         modelBuilder.ApplyConfiguration(new RouteInstructionDbConfig());
+        modelBuilder.ApplyConfiguration(new WaypointConfig());
     }
 }
 

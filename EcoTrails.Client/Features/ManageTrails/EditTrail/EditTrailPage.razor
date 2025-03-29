@@ -62,6 +62,7 @@ else
                 Stage = ri.Stage,
                 Description = ri.Description
             }));
+            _trail.Waypoints.AddRange(response.Trail.Waypoints.Select(wp => new WaypointDto(wp.Latitude, wp.Longitude)));
         }
         else
         {
@@ -88,11 +89,12 @@ else
             _trail.TimeInMinutes = trail.TimeInMinutes;
             _trail.Route.Clear();
             _trail.Route.AddRange(trail.Route.Select(ri => new RouteInstruction
-
             {
                 Stage = ri.Stage,
                 Description = ri.Description
             }));
+            _trail.Waypoints.Clear();
+            _trail.Waypoints.AddRange(trail.Waypoints.Select(wp => new WaypointDto(wp.Latitude, wp.Longitude)));
 
             _submitSuccessful = true;
 

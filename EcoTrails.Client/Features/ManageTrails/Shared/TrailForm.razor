@@ -38,7 +38,7 @@
 		</FormFieldSet>
 	</FormSection>
 	<FormSection Title="Difficulty"
-	HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
+	             HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
 		<FormFieldSet>
 			<label for="trailLength" class="font-weight-bold text-secondary" mb-2>Length (km)</label>
 			<InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength" />
@@ -50,8 +50,13 @@
 			<ValidationMessage For="@(() => _trail.TimeInMinutes)" />
 		</FormFieldSet>
 	</FormSection>
+	<FormSection Title="Map"
+	             HelpText="Route Map is a smart way to share your trails with friends">
+		<InputRouteMap @bind-Value="_trail.Waypoints" />
+		<ValidationMessage For="@(() => _trail.Waypoints)"/>
+	</FormSection>
 	<FormSection Title="Route Instructions"
-	HelpText="Route instructions are a guide for the trail. This helps hikers new to the trail stay on track.">
+				HelpText="Route instructions are a guide for the trail. This helps hikers new to the trail stay on track.">
 		@{
 			var i = 0;
 		}
@@ -145,6 +150,9 @@
 				Stage = ri.Stage,
 				Description = ri.Description
 			}));
+
+			_trail.Waypoints.Clear();
+			_trail.Waypoints.AddRange(Trail.Waypoints.Select(x => new WaypointDto(x.Latitude, x.Longitude)));
 		}
 	}
 

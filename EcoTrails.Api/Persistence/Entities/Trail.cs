@@ -14,6 +14,7 @@ public class Trail
     public string TimeFormatted => $"{TimeInMinutes / 60}h {TimeInMinutes % 60}m";
     public int Length { get; set; }
     public IEnumerable<RouteInstruction> Route { get; set; } = new List<RouteInstruction>();
+    public IEnumerable<Waypoint> Waypoints { get; set; } = new List<Waypoint>();
 }
 
 public class TrailDbConfig : IEntityTypeConfiguration<Trail>

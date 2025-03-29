@@ -22,5 +22,3 @@ table ::deep thead tr th {
 table ::deep tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
-/*# sourceMappingURL=ViewSwitcher.razor.css.map */
