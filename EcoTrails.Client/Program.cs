@@ -15,4 +15,12 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
 
+builder.Services.AddOidcAuthentication(opt =>
+{
+    builder.Configuration.Bind("Auth0", opt.ProviderOptions);
+    opt.ProviderOptions.ResponseType = "code";
+});
+
+
+
 await builder.Build().RunAsync();
