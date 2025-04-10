@@ -1,7 +1,9 @@
 ﻿@page "/"
+@using System.Security.Claims
 @using EcoTrails.ComponentLibrary.Map
 @inject IMediator Mediator
 @inject NavigationManager NavManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Blazing Trails</PageTitle>
 
@@ -17,9 +19,19 @@ else
 
     @if (_trails.Any())
     {
-        <div class="mb-4">
-            <p class="font-italic text-center">Do you have an awesome trail you'd like to share? <a href="add-trail">Add it here</a>.</p>
-        </div>
+        <AuthorizeView>
+            <Authorized>
+	            <div class="mb-4">
+		            <p class="font-italic text-center">Do you have an awesome trail you'd like to share? <a href="add-trail">Add it here</a>.</p>
+	            </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="mb-4">
+                    <p class="font-italic text-center">Do you have an awesome trail you'd like to share? Please <a href="authentication/login">log in or sign up</a>.</p>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+
 
         <ViewSwitcher Items="_trails" Context="trailCtx">
             <GridTemplate>
@@ -41,9 +53,14 @@ else
                     <button @onclick="@(() => HandleTrailSelected(trailCtx))" title="View" class="btn btn-primary">
                         <i class="bi bi-binoculars"></i>
                     </button>
-                    <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
-                        <i class="bi bi-pencil"></i>
-                    </button>
+                    <AuthorizeView>
+                        @if (trailCtx.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        }
+                    </AuthorizeView>
                 </td>
             </RowTemplate>
         </ViewSwitcher>
@@ -66,7 +83,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        try
+	    try
         {
             var response = await Mediator.Send(new GetTrailsRequest());
             _trails = response.Trails.Select(x => new Trail
@@ -75,6 +92,7 @@ else
                 Name = x.Name,
                 Image = x.Image,
                 Description = x.Description,
+                Owner = x.Owner,
                 Location = x.Location,
                 Length = x.Length,
                 TimeInMinutes = x.TimeInMinutes,

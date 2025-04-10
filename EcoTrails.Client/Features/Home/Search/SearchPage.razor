@@ -1,8 +1,9 @@
 ﻿@page "/search/{SearchTerm}"
-@using EcoTrails.Client.Features.Home.Shared
+@using EcoTrails.ComponentLibrary.Map
 
 @inject HttpClient httpClient
 @inject ILogger<HomePage> logger;
+@inject IMediator Mediator
 
 <PageTitle>eco.Trails - Search Results</PageTitle>
 
@@ -53,15 +54,32 @@ else
 	{
 		try
 		{
-			var allTrails = await httpClient.GetFromJsonAsync<IEnumerable<Trail>>("trails/trail-data.json");
+			var response = await Mediator.Send(new GetTrailsRequest());
+			var allTrails = response.Trails.Select(x => new Trail
+			{
+				Id = x.Id,
+				Name = x.Name,
+				Image = x.Image,
+				Description = x.Description,
+				Owner = x.Owner,
+				Location = x.Location,
+				Length = x.Length,
+				TimeInMinutes = x.TimeInMinutes,
+				Waypoints = x.Waypoints.Select(wp => new LatLong(wp.Latitude, wp.Longitude)).ToList(),
+				Route = x.RouteInstructions.Select(r => new RouteInstruction()
+				{
+					Stage = r.Stage,
+					Description = r.Description
+				})
+			});
+
 			_searchResults = allTrails!.Where(x => x.Name.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase)
-															|| x.Location.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase));
+			                                       || x.Location.Contains(SearchTerm, StringComparison.CurrentCultureIgnoreCase));
 			_cachedSearchResults = _searchResults;
 		}
 		catch (HttpRequestException ex)
 		{
-			//TODO
-			logger.LogError(ex, "An error occured");
+			Console.WriteLine($"There was a problem loading trail data: {ex.Message}");
 		}
 	}
 

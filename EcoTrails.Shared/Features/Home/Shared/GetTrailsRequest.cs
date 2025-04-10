@@ -14,6 +14,7 @@ public record GetTrailsRequest : IRequest<GetTrailsRequest.Response>
         int TimeInMinutes, 
         int Length, 
         string Description,
+        string Owner,
         List<Waypoint> Waypoints,
         List<RouteInstruction> RouteInstructions);
 

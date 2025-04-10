@@ -33,6 +33,7 @@ public class GetTrailsEndpoint : EndpointBaseAsync
             trail.TimeInMinutes,
             trail.Length,
             trail.Description,
+            trail.Owner,
             trail.Waypoints.Select(wp => new GetTrailsRequest.Waypoint(wp.Latitude, wp.Longitude)).ToList(),
             trail.Route.Select(r => new GetTrailsRequest.RouteInstruction(r.Stage, r.Description)).ToList()
         )));
