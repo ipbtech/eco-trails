@@ -1,8 +1,26 @@
-﻿using EcoTrails.Shared.Features.ManageTrails.Shared;
+﻿using Blazored.LocalStorage;
 
 namespace EcoTrails.Client.State;
 
 public class AppState
 {
-    public NewTrailState NewTrailState { get; } = new();
+    private bool _isInitialized;
+
+    public NewTrailState NewTrailState { get; }
+    public FavoriteTrailsState FavoriteTrailsState { get; }
+
+    public AppState(ILocalStorageService localStorageService)
+    {
+        NewTrailState = new NewTrailState();
+        FavoriteTrailsState = new FavoriteTrailsState(localStorageService);
+    }
+
+    public async Task Initialize()
+    {
+        if (!_isInitialized)
+        {
+            await FavoriteTrailsState.Initialize();
+            _isInitialized = true;
+        }
+    }
 }

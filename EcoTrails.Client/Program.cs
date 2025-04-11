@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using EcoTrails.Client;
 using EcoTrails.Client.Features.Auth;
 using EcoTrails.Client.State;
@@ -31,5 +32,6 @@ builder.Services.AddOidcAuthentication(opt =>
 }).AddAccountClaimsPrincipalFactory<CustomUserFactory<RemoteUserAccount>>();
 
 builder.Services.AddScoped<AppState>();
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();

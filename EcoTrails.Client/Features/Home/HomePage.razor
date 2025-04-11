@@ -1,9 +1,12 @@
 ﻿@page "/"
-@using System.Security.Claims
+@using EcoTrails.Client.State
 @using EcoTrails.ComponentLibrary.Map
 @inject IMediator Mediator
 @inject NavigationManager NavManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject AppState AppState
+@implements IDisposable
+
 
 <PageTitle>Blazing Trails</PageTitle>
 
@@ -32,38 +35,44 @@ else
             </NotAuthorized>
         </AuthorizeView>
 
-
+        <div clas="mb-3" style="text-align:end">
+	        <p>
+		        <span class="font-weight-bold">@AppState.FavoriteTrailsState.FavoriteTrails.Count</span>
+		        <a href="/favorite-trails">favorite trails</a>
+	        </p>
+        </div>
         <ViewSwitcher Items="_trails" Context="trailCtx">
-            <GridTemplate>
-                <TrailCard Trail="trailCtx" OnSelected="HandleTrailSelected" />
-            </GridTemplate>
-            <HeaderTemplate>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Length</th>
-                <th>Time</th>
-                <th></th>
-            </HeaderTemplate>
-            <RowTemplate>
-                <th scope="col">@trailCtx.Name</th>
-                <td>@trailCtx.Location</td>
-                <td>@(trailCtx.Length)km</td>
-                <td>@trailCtx.TimeFormatted</td>
-                <td class="text-right">
-                    <button @onclick="@(() => HandleTrailSelected(trailCtx))" title="View" class="btn btn-primary">
-                        <i class="bi bi-binoculars"></i>
-                    </button>
-                    <AuthorizeView>
-                        @if (trailCtx.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase) ||
-                             context.User.IsInRole("Administrator"))
-                        {
-                            <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                        }
-                    </AuthorizeView>
-                </td>
-            </RowTemplate>
+	        <GridTemplate>
+		        <TrailCard Trail="trailCtx" OnSelected="HandleTrailSelected" />
+	        </GridTemplate>
+	        <HeaderTemplate>
+		        <th>Name</th>
+		        <th>Location</th>
+		        <th>Length</th>
+		        <th>Time</th>
+		        <th></th>
+	        </HeaderTemplate>
+	        <RowTemplate>
+		        <th scope="col">@trailCtx.Name</th>
+		        <td>@trailCtx.Location</td>
+		        <td>@(trailCtx.Length)km</td>
+		        <td>@trailCtx.TimeFormatted</td>
+		        <td class="text-right">
+			        <button @onclick="@(() => HandleTrailSelected(trailCtx))" title="View" class="btn btn-primary">
+				        <i class="bi bi-binoculars"></i>
+			        </button>
+			        <FavoriteButton Trail="trailCtx" />
+			        <AuthorizeView>
+				        @if (trailCtx.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase) ||
+				             context.User.IsInRole("Administrator"))
+				        {
+					        <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
+						        <i class="bi bi-pencil"></i>
+					        </button>
+				        }
+			        </AuthorizeView>
+		        </td>
+	        </RowTemplate>
         </ViewSwitcher>
     }
     else
@@ -81,6 +90,12 @@ else
 @code {
     private IEnumerable<Trail>? _trails;
     private Trail? _selectedTrail;
+
+    protected override void OnInitialized()
+	    => AppState.FavoriteTrailsState.OnChange += StateHasChanged;
+
+    void IDisposable.Dispose()
+	    => AppState.FavoriteTrailsState.OnChange -= StateHasChanged;
 
     protected override async Task OnInitializedAsync()
     {
