@@ -1,5 +1,6 @@
 # eco-trails
 Application to share and explore amazing hiking trails created by "Blazor In Action" book
+
 https://github.com/chrissainty
 
 ## Technologies
