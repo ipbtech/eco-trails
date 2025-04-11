@@ -1,4 +1,7 @@
-﻿<CascadingAuthenticationState>
+﻿@using EcoTrails.Client.State
+@inject AppState AppState
+
+<CascadingAuthenticationState>
 	<Router AppAssembly="@typeof(Program).Assembly">
 		<Found Context="routeData">
 			<AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
@@ -20,3 +23,14 @@
 		</NotFound>
 	</Router>
 </CascadingAuthenticationState>
+
+@code
+{
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await AppState.Initialize();
+		}
+	}
+}

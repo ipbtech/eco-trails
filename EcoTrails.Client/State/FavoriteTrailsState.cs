@@ -1,5 +1,5 @@
 ﻿using Blazored.LocalStorage;
-using EcoTrails.Client.Features.Home.Shared;
+using EcoTrails.Client.Features.Shared;
 
 namespace EcoTrails.Client.State;
 

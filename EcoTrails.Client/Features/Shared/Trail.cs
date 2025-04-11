@@ -1,6 +1,6 @@
 ﻿using EcoTrails.ComponentLibrary.Map;
 
-namespace EcoTrails.Client.Features.Home.Shared;
+namespace EcoTrails.Client.Features.Shared;
 
 public class Trail
 {
