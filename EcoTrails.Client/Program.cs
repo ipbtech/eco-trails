@@ -1,5 +1,6 @@
 using EcoTrails.Client;
 using EcoTrails.Client.Features.Auth;
+using EcoTrails.Client.State;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -28,5 +29,7 @@ builder.Services.AddOidcAuthentication(opt =>
     opt.ProviderOptions.AdditionalProviderParameters.Add("audience", builder.Configuration["Auth0:ApiIdentifier"] ?? "");
     opt.ProviderOptions.ResponseType = "code";
 }).AddAccountClaimsPrincipalFactory<CustomUserFactory<RemoteUserAccount>>();
+
+builder.Services.AddScoped<AppState>();
 
 await builder.Build().RunAsync();

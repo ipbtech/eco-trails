@@ -1,8 +1,13 @@
-﻿@using EcoTrails.Shared.Features.ManageTrails.Shared
+﻿@using EcoTrails.Client.State
+@using EcoTrails.Shared.Features.ManageTrails.Shared
 @using RouteInstruction = EcoTrails.Shared.Features.ManageTrails.Shared.RouteInstruction
+
+@inject AppState AppState
 
 <EditForm EditContext="_editContext" OnValidSubmit="SubmitForm">
 	<FluentValidationValidator />
+	<FormStateTracker />
+
 	<FormSection Title="Basic Details"
 	HelpText="This information is used to identify the trail and can be searched to help hikers find it.">
 		<FormFieldSet>
@@ -38,7 +43,7 @@
 		</FormFieldSet>
 	</FormSection>
 	<FormSection Title="Difficulty"
-	             HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
+	HelpText="Help other hikers out by telling them the length of the trail is how long it might take them.">
 		<FormFieldSet>
 			<label for="trailLength" class="font-weight-bold text-secondary" mb-2>Length (km)</label>
 			<InputNumber @bind-Value="_trail.Length" class="form-control" id="trailLength" />
@@ -51,12 +56,12 @@
 		</FormFieldSet>
 	</FormSection>
 	<FormSection Title="Map"
-	             HelpText="Route Map is a smart way to share your trails with friends">
+	HelpText="Route Map is a smart way to share your trails with friends">
 		<InputRouteMap @bind-Value="_trail.Waypoints" />
 		<ValidationMessage For="@(() => _trail.Waypoints)"/>
 	</FormSection>
 	<FormSection Title="Route Instructions"
-				HelpText="Route instructions are a guide for the trail. This helps hikers new to the trail stay on track.">
+	HelpText="Route instructions are a guide for the trail. This helps hikers new to the trail stay on track.">
 		@{
 			var i = 0;
 		}
@@ -114,14 +119,15 @@
 	private EditContext _editContext = default!;
 
 	[Parameter, EditorRequired] 
-    public Func<TrailDto, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
+	public Func<TrailDto, IBrowserFile?, Task> OnSubmit { get; set; } = default!;
 
 	[Parameter] 
-    public TrailDto? Trail { get; set; }
+	public TrailDto? Trail { get; set; }
 
 
 	public void ResetForm()
 	{
+		AppState.NewTrailState.ClearTrail();
 		_trail = new TrailDto();
 		_editContext = new EditContext(_trail);
 		_editContext.SetFieldCssClassProvider(new BootstrapCssClassProvider());
@@ -153,6 +159,10 @@
 
 			_trail.Waypoints.Clear();
 			_trail.Waypoints.AddRange(Trail.Waypoints.Select(x => new WaypointDto(x.Latitude, x.Longitude)));
+		}
+		else
+		{
+			_trail = AppState.NewTrailState.GetTrail();
 		}
 	}
 
