@@ -16,14 +16,14 @@
 	                </div>
 	                <p class="mt-4">@_activeTrail.Description</p>
                 </div>
-                <div>
+                <div class="trail-details">
 	                @if (_activeTrail.Waypoints.Any())
 	                {
 		                <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span>Map</h6>
 		                <RouteMap Width="100%" IsReadOnly="true" Waypoints="_activeTrail.Waypoints.ToList()"/>
 	                }
                 </div>
-                <div>
+                <div class="trail-details">
 	                @if (_activeTrail.Route.Any())
 	                {
 		                <h6 class="mb-3 text-muted"><span class="oi oi-map-marker"></span>Route Instructions</h6>
