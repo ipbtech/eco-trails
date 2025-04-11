@@ -2,6 +2,7 @@
 using EcoTrails.Api.Persistence;
 using EcoTrails.Api.Persistence.Entities;
 using EcoTrails.Shared.Features.ManageTrails.AddTrail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcoTrails.Api.Features.ManageTrails.AddTrail;
@@ -17,6 +18,7 @@ public class AddTrailEndpoint : EndpointBaseAsync
         _database = database;
     }
 
+    [Authorize]
     [HttpPost(AddTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<int>> HandleAsync(AddTrailRequest request, CancellationToken cancellationToken = default)
     {

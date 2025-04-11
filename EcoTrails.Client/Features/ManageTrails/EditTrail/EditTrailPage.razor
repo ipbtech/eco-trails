@@ -1,4 +1,6 @@
 ﻿@page "/edit-trail/{TrailId:int}"
+@attribute [Authorize]
+
 @using EcoTrails.Shared.Features.ManageTrails.EditTrail
 @using EcoTrails.Shared.Features.ManageTrails.Shared
 @using RouteInstruction = EcoTrails.Shared.Features.ManageTrails.Shared.RouteInstruction

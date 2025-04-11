@@ -1,6 +1,7 @@
 ﻿using Ardalis.ApiEndpoints;
 using EcoTrails.Api.Persistence;
 using EcoTrails.Shared.Features.ManageTrails.EditTrail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class GetTrailEndpoint : EndpointBaseAsync
         _context = context;
     }
 
+    [Authorize]
     [HttpGet(GetTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<GetTrailRequest.Response>> HandleAsync(int trailId, CancellationToken cancellationToken = default)
     {
@@ -28,6 +30,11 @@ public class GetTrailEndpoint : EndpointBaseAsync
         if (trail is null)
         {
             return BadRequest("Trail could not be found.");
+        }
+
+        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            return Unauthorized();
         }
 
         var response = new GetTrailRequest.Response(new GetTrailRequest.Trail(trail.Id,

@@ -3,6 +3,7 @@ using EcoTrails.Api.Persistence;
 using EcoTrails.Api.Persistence.Entities;
 using EcoTrails.Shared.Features.ManageTrails.EditTrail;
 using EcoTrails.Shared.Features.ManageTrails.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,7 @@ public class EditTrailEndpoint : EndpointBaseAsync
         _database = database;
     }
 
+    [Authorize]
     [HttpPut(EditTrailRequest.RouteTemplate)]
     public override async Task<ActionResult<bool>> HandleAsync(EditTrailRequest request, CancellationToken cancellationToken = default)
     {
@@ -30,6 +32,11 @@ public class EditTrailEndpoint : EndpointBaseAsync
         if (trail is null)
         {
             return BadRequest("Trail could not be found.");
+        }
+
+        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            return Unauthorized();
         }
 
         trail.Name = request.Trail.Name;

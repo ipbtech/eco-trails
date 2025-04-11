@@ -1,10 +1,12 @@
 using System.Reflection;
+using System.Security.Claims;
 using EcoTrails.Api.Persistence;
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,15 +19,12 @@ builder.Services.AddDbContext<EcoTrailsDbContext>(options =>
 
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("EcoTrails.Shared"));
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.Authority = builder.Configuration["Auth0:Authority"];
-    options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
-});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
+    {
+        c.Authority = builder.Configuration["Auth0:Authority"];
+        c.Audience = builder.Configuration["Auth0:ApiIdentifier"];
+    });
 
 var app = builder.Build();
 
