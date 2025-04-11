@@ -54,7 +54,8 @@ else
                         <i class="bi bi-binoculars"></i>
                     </button>
                     <AuthorizeView>
-                        @if (trailCtx.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase))
+                        @if (trailCtx.Owner.Equals(context.User.Identity?.Name, StringComparison.OrdinalIgnoreCase) ||
+                             context.User.IsInRole("Administrator"))
                         {
                             <button @onclick="@(() => NavManager.NavigateTo($"/edit-trail/{trailCtx.Id}"))" title="Edit" class="btn btn-outline-secondary">
                                 <i class="bi bi-pencil"></i>

@@ -30,7 +30,8 @@ public class UploadTrailImageEndpoint : EndpointBaseAsync
             return BadRequest("Trail does not exist.");
         }
 
-        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase))
+        if (!trail.Owner.Equals(HttpContext.User.Identity!.Name, StringComparison.OrdinalIgnoreCase) &&
+            !HttpContext.User.IsInRole("Administrator"))
         {
             return Unauthorized();
         }
